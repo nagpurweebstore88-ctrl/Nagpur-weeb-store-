@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>Photo checker</title>
+<style>
+body{background:#0b0b0f;color:#eee;font-family:Arial,sans-serif;padding:18px;max-width:860px;margin:auto;line-height:1.5}
+h1{color:#8B3DFF;margin:0 0 6px}.ok{color:#4ade80;font-weight:bold}.bad{color:#ff5470;font-weight:bold}
+code{background:#1c1c28;padding:2px 6px;border-radius:4px;word-break:break-all}li{margin:8px 0}
+</style></head><body>
+<h1>Photo checker</h1>
+<p>This page checks that every photo your site needs is really uploaded. It is only for you. Open it after each upload.</p>
+<p id="sum">Checking, please wait...</p>
+<ul id="bad"></ul>
+<script>
+(async function(){
+  var sum=document.getElementById("sum"), bad=document.getElementById("bad");
+  try{
+    var q="?"+Date.now();
+    var html=await (await fetch("index.html"+q)).text();
+    var m=html.match(/const PRODUCTS = (\[[\s\S]*?\n\]);/);
+    var P=(new Function("return "+m[1]))();
+    var list=[];
+    P.forEach(function(p){ if(p.image) list.push([p.name,"images/"+(p.image.indexOf(".")>-1?p.image:p.image+".jpg")]); });
+    var w={};
+    var mf=await (await fetch("data/manifest.js"+q)).text();
+    (new Function("window",mf))(w);
+    for(var k=0;k<(w.POSTER_SETS||[]).length;k++){
+      var t=await (await fetch("data/posters-"+w.POSTER_SETS[k]+".js"+q)).text();
+      (new Function("window",t))(w);
+    }
+    (w.POSTER_DATA||[]).forEach(function(s){ s.items.forEach(function(r){
+      var no=s.prefix+"-"+String(r[0]).padStart(3,"0");
+      list.push([no+" "+r[1],"images/posters/"+s.folder+"/"+r[2]+".webp"]);
+      list.push([no+" thumbnail","images/posters/"+s.folder+"/t/"+r[2]+".webp"]);
+    });});
+    var missing=[], done=0;
+    function test(item){ return new Promise(function(res){ var i=new Image();
+      i.onload=function(){done++;res();}; i.onerror=function(){missing.push(item);done++;res();};
+      i.src=item[1]+q; }); }
+    for(var a=0;a<list.length;a+=25){ await Promise.all(list.slice(a,a+25).map(test)); sum.textContent="Checking... "+done+" of "+list.length; }
+    if(!missing.length){ sum.innerHTML='<span class="ok">All '+list.length+' photos found. Everything is fine.</span>'; }
+    else{ sum.innerHTML='<span class="bad">'+missing.length+' photo(s) missing</span> out of '+list.length+'. Each one should be uploaded to the path shown:';
+      missing.forEach(function(x){ var li=document.createElement("li"); li.textContent=x[0]+"  ->  "; var c=document.createElement("code"); c.textContent=x[1]; li.appendChild(c); bad.appendChild(li); }); }
+  }catch(e){ sum.innerHTML='<span class="bad">The checker could not run:</span> '+e.message; }
+})();
+</script></body></html>
