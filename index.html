@@ -36,8 +36,8 @@ label.l{display:block;font-size:.85rem;color:var(--dim);margin-bottom:3px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:16px 18px;max-width:980px;margin:0 auto}
 @media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
 .card{background:var(--card);border:2px solid var(--neon);border-radius:12px;box-shadow:0 0 16px -4px var(--glow);display:flex;flex-direction:column;overflow:hidden}
-.pic{aspect-ratio:1;display:grid;place-items:center;font-size:3.4rem;background:#1a1230;position:relative}
-.pic img{width:100%;height:100%;object-fit:cover}
+.pic{aspect-ratio:1;display:grid;place-items:center;font-size:3.4rem;background:#1a1230;position:relative;overflow:hidden}
+.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tag{position:absolute;top:8px;left:8px;background:#fff;color:#000;font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:6px}
 .info{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
 .name{font-weight:700;line-height:1.25}
@@ -71,7 +71,7 @@ footer a{color:var(--tx);font-weight:700}
 @media(min-width:700px){.folders{grid-template-columns:repeat(3,1fr)}}
 .fold{background:var(--card);border:2px solid var(--neon);border-radius:14px;box-shadow:0 0 16px -4px var(--glow);overflow:hidden;padding:0;text-align:center}
 .cov{aspect-ratio:4/3;background:#1a1230;display:grid;place-items:center;font-size:3rem;overflow:hidden}
-.cov img{width:100%;height:100%;object-fit:cover}
+.cov img{width:100%;height:100%;object-fit:cover;min-width:0;min-height:0}
 .fold b{display:block;padding:8px 10px 0;font-family:var(--display);font-weight:400;font-size:1.1rem}
 .fold small{display:block;padding-bottom:10px;color:var(--dim)}
 .back{background:rgba(7,6,11,.6);border:2px solid var(--neon);border-radius:999px;padding:5px 14px;font-weight:700}
