@@ -3,7 +3,7 @@
    Each row is: [number, "Creative name", "photo file name", "search words", optional {price:150, stock:3}]
    Photos live in images/posters/one-piece/ (big) and images/posters/one-piece/t/ (thumbnail). */
 window.POSTER_DATA=window.POSTER_DATA||[];
-window.POSTER_DATA.push({anime:"One Piece",folder:"one-piece",prefix:"OP",price:100,stock:10,size:"12 x 18 in",note:"Poster print",items:[
+window.POSTER_DATA.push({anime:"One Piece",folder:"one-piece",prefix:"OP",price:99,stock:10,size:"12 x 18 in",note:"Poster print",items:[
  [1, "Empress of the Serpent", "boa-hancock", "Boa Hancock"],
  [2, "Hat and Hokage High Five", "luffy-naruto-high-five", "Luffy x Naruto High Five"],
  [3, "Sun God Awakens", "luffy-gear-5-sun-god", "Luffy Gear 5 Sun God"],
