@@ -228,6 +228,8 @@ $("ig").href = "https://instagram.com/" + SHOP.instagram;
 const imgSrc=p=>"images/"+(p.image.includes(".")?p.image:p.image+".jpg");
 const thumbSrc=p=>p.thumb?"images/"+p.thumb:imgSrc(p);
 const SUBCATS=["Posters"];
+const covSlug=(pre,n)=>pre+String(n).toLowerCase().replace(/'/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const covImg=(slug,cv)=>`<img src="images/covers/${slug}.png" alt="" loading="lazy"${cv?` onerror="this.onerror=null;this.src='${thumbSrc(cv)}'"`:""}>`;
 const SUBFIRST=["Anime Multiverse","Wanted Posters"];
 const subSort=(a,b)=>{const x=SUBFIRST.indexOf(a),y=SUBFIRST.indexOf(b);return x<0&&y<0?String(a).localeCompare(String(b)):x<0?1:y<0?-1:x-y;};
 const catHash=()=>"#/c/"+encodeURIComponent(cat)+(sub?"/"+encodeURIComponent(sub):"");
@@ -269,7 +271,7 @@ $("anime").onchange=e=>{anime=e.target.value;grid();};
 $("q").oninput=e=>{term=e.target.value.toLowerCase();lim=60;grid();};
 
 function home(){ $("folders").innerHTML=CATEGORIES.map(c=>{const l=PRODUCTS.filter(p=>p.cat===c),cv=l.find(p=>p.image);
-  return `<button class="fold" data-f="${c}"><div class="cov">${cv?`<img src="${thumbSrc(cv)}" alt="" loading="lazy">`:ICONS[c]}</div><b>\u{1F4C1} ${c}</b><small>${l.length?l.length+" item"+(l.length>1?"s":""):"Coming soon"}</small></button>`}).join(""); }
+  return `<button class="fold" data-f="${c}"><div class="cov">${covImg(covSlug("",c),cv)}</div><b>\u{1F4C1} ${c}</b><small>${l.length?l.length+" item"+(l.length>1?"s":""):"Coming soon"}</small></button>`}).join(""); }
 
 /* zoomable photo */
 const zb=$("zoom"), pts=new Map(); let z={s:1,x:0,y:0}, d0=0, s0=1;
@@ -317,7 +319,7 @@ function route(){
     $("frow").hidden=subs; $("fanime").hidden=!!sub; $("grid").hidden=subs; $("subs").hidden=!subs;
     if(subs){ const names=[...new Set(PRODUCTS.filter(x=>x.cat===cat).map(x=>x.anime))].sort(subSort);
       $("subs").innerHTML=names.length?names.map(a=>{const l=PRODUCTS.filter(x=>x.cat===cat&&x.anime===a),cv=l.find(x=>x.image);
-        return `<button class="fold" data-s="${a}"><div class="cov">${cv?`<img src="${thumbSrc(cv)}" alt="" loading="lazy">`:ICONS[cat]}</div><b>\u{1F4C1} ${a}</b><small>${l.length} poster${l.length>1?"s":""}</small></button>`}).join(""):'<p class="empty">More coming soon.</p>'; }
+        return `<button class="fold" data-s="${a}"><div class="cov">${covImg(covSlug("posters-",a),cv)}</div><b>\u{1F4C1} ${a}</b><small>${l.length} poster${l.length>1?"s":""}</small></button>`}).join(""):'<p class="empty">More coming soon.</p>'; }
     else grid(); }
   if(p) openP(p); else { $("pv").hidden=true; document.body.style.overflow=""; }
 }
