@@ -1,0 +1,40 @@
+/* JUJUTSU KAISEN posters. price, stock and size apply to every poster in this file.
+   Each row is: [number, "Creative name", "photo file name", "search words", optional {price:150, stock:3}]
+   Photos live in images/posters/jujutsu-kaisen/ (big) and images/posters/jujutsu-kaisen/t/ (thumbnail). */
+window.POSTER_DATA=window.POSTER_DATA||[];
+window.POSTER_DATA.push({anime:"Jujutsu Kaisen",folder:"jujutsu-kaisen",prefix:"JK",price:99,stock:10,size:"12 x 18 in",note:"Poster print",items:[
+ [1, "Blue Rose of the Six Eyes", "gojo-blue-rose-satoru", "Satoru Gojo blue rose neon six eyes"],
+ [2, "Faces of the Jujutsu Tide", "jjk-group-color-shards", "Yuji Megumi Nobara Gojo Nanami Geto Mahito color shards"],
+ [3, "Honored One at Play", "gojo-sunglasses-blue-burst", "Gojo sunglasses blue cursed energy buildings"],
+ [4, "King of Curses Rises", "sukuna-red-throne-stare", "Ryomen Sukuna red glow claws"],
+ [5, "Nanami in Blue Flame", "nanami-blue-flames-cloth", "Kento Nanami blue flames ratio technique"],
+ [6, "Lounge of the Strongest", "gojo-chinese-robe-couch", "Gojo purple robe red couch cherry blossoms"],
+ [7, "Overtime Starlight", "nanami-gold-blue-swirl", "Nanami golden blue swirl overtime"],
+ [8, "Tired Sorcerer", "nanami-hand-on-face", "Nanami hand on face painted tired"],
+ [9, "Lanterns for a Quiet Death", "yuji-red-lanterns-anniversary", "Yuji Itadori lanterns first anniversary"],
+ [10, "Pink Roses and Tape", "gojo-manga-pink-collage", "Gojo manga collage pink roses police tape"],
+ [11, "Ink of the Curse King", "sukuna-black-white-ink", "Sukuna black white ink finger cleave"],
+ [12, "Fall Upside Down", "gojo-falling-inverted", "Gojo upside down falling blue purple"],
+ [13, "Rooftop Showdown", "gojo-vs-sukuna-rooftop", "Gojo vs Sukuna rooftop tower city"],
+ [14, "Beneath the Divine General", "megumi-mahoraga-looming", "Megumi Fushiguro with Mahoraga monochrome"],
+ [15, "Hollow Red Eyes", "gojo-red-hollow-blindfold", "Gojo blindfold red cursed technique reversal"],
+ [16, "Purple Blooms", "gojo-purple-hollow-glow", "Gojo Hollow Purple glowing pink violet"],
+ [17, "Heavenly Restriction", "toji-manga-collage-blue", "Toji Fushiguro manga collage blue swords"],
+ [18, "Special Grade Calm", "yuta-manga-collage-purple", "Yuta Okkotsu manga collage purple Rika"],
+ [19, "Smile of the Curse King", "sukuna-orange-reaching-hand", "Sukuna orange fire reaching hand smile"],
+ [20, "Second-Year Roll Call", "jjk-red-black-strips", "Jujutsu Kaisen Panda Maki Nobara Yuji Megumi Gojo Inumaki Mahito red black"],
+ [21, "Purple Blood Grin", "toji-purple-blood-grin", "Toji Fushiguro purple blood grin sword shoulder Shoko"],
+ [22, "Pink Splatter Embrace", "toji-pink-splatter-hug", "Toji Fushiguro pink blood splatter fighting"],
+ [23, "Knife in Hand, Smile on Lips", "toji-crouch-knife", "Toji Fushiguro crouching knife blood"],
+ [24, "Piano Key Blade", "nanami-keyboard-cleaver-curse-spirits", "Nanami blade cleaver half face curses blue red"],
+ [25, "Station After the Storm", "shibuya-station-aftermath", "Shibuya station aftermath Yuji Choso Nanami blood"],
+ [26, "Moon of the Ten Shadows", "megumi-wolves-nue-moon", "Megumi Fushiguro Divine Dogs Nue moon shadow"],
+ [27, "Giant Above the Ruins", "sukuna-giant-yuji-city", "Sukuna giant face Yuji city ruins red"],
+ [28, "Mahoraga at the Crossing", "mahoraga-shibuya-crossing", "Mahoraga divine general Megumi Shibuya night"],
+ [29, "Fire Arrow Unleashed", "sukuna-fire-arrow", "Sukuna Fuga fire arrow flames orange"],
+ [30, "Cursed Womb Roll Call", "jjk-minimal-silhouette-cursed-womb", "Jujutsu Kaisen minimal silhouette collage Mahito Geto Yuji Nanami Megumi Panda"],
+ [31, "Project of the Cursed", "jjk-project-yuji-megumi-nobara-nanami", "Jujutsu Kaisen project Yuji Megumi Nobara Nanami purple"],
+ [32, "Neon Silhouette Nanami", "nanami-neon-silhouette", "Nanami silhouette neon pink blue splatter"],
+ [33, "Memory in Shattered Glass", "geto-memory-shattered-glass", "Geto Gojo Shoko Nanami memory shattered glass cherry blossoms"],
+ [34, "Faces in the Dark", "jjk-red-black-lineart-collage", "Jujutsu Kaisen black red line art collage Sukuna Yuji Gojo"]
+]});

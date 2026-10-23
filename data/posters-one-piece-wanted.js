@@ -2,7 +2,7 @@
    Each row is: [number, "Creative name", "photo file name", "search words", optional {price:150, stock:3}]
    Photos live in images/posters/one-piece-wanted/ (big) and images/posters/one-piece-wanted/t/ (thumbnail). */
 window.POSTER_DATA=window.POSTER_DATA||[];
-window.POSTER_DATA.push({anime:"One Piece",folder:"one-piece-wanted",prefix:"WP",price:99,stock:10,size:"12 x 18 in",note:"Poster print",items:[
+window.POSTER_DATA.push({anime:"Wanted Posters",folder:"one-piece-wanted",prefix:"WP",price:99,stock:10,size:"12 x 18 in",note:"Poster print",items:[
  [1, "Revolutionary Flame Heir", "wanted-sabo", "Sabo wanted poster Revolutionary Army dragon claw 602000000"],
  [2, "Three-Sword Bounty", "wanted-zoro", "Roronoa Zoro wanted poster bounty 320000000"],
  [3, "Cat Burglar's Price", "wanted-nami", "Nami wanted poster bounty 66000000"],

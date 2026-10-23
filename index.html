@@ -228,6 +228,8 @@ $("ig").href = "https://instagram.com/" + SHOP.instagram;
 const imgSrc=p=>"images/"+(p.image.includes(".")?p.image:p.image+".jpg");
 const thumbSrc=p=>p.thumb?"images/"+p.thumb:imgSrc(p);
 const SUBCATS=["Posters"];
+const SUBFIRST=["Anime Multiverse","Wanted Posters"];
+const subSort=(a,b)=>{const x=SUBFIRST.indexOf(a),y=SUBFIRST.indexOf(b);return x<0&&y<0?String(a).localeCompare(String(b)):x<0?1:y<0?-1:x-y;};
 const catHash=()=>"#/c/"+encodeURIComponent(cat)+(sub?"/"+encodeURIComponent(sub):"");
 function expandPosters(){ (window.POSTER_DATA||[]).forEach(s=>s.items.forEach(r=>{ const no=s.prefix+"-"+String(r[0]).padStart(3,"0");
   PRODUCTS.push(Object.assign({id:no,no,name:r[1],kw:r[3]||"",cat:"Posters",anime:s.anime,height:s.size,note:s.note||"",stock:s.stock,price:s.price,
@@ -310,10 +312,10 @@ function route(){
     $("back").innerHTML=sub?"&larr; "+cat:"&larr; All categories";
     const key=cat+"/"+sub;
     if(key!==last){ last=key; anime=""; term=""; lim=60; $("q").value="";
-      const l=[...new Set(PRODUCTS.filter(x=>x.cat===cat).map(x=>x.anime).filter(Boolean))].sort();
+      const l=[...new Set(PRODUCTS.filter(x=>x.cat===cat).map(x=>x.anime).filter(Boolean))].sort(subSort);
       $("anime").innerHTML='<option value="">All anime</option>'+l.map(v=>`<option>${v}</option>`).join(""); }
     $("frow").hidden=subs; $("fanime").hidden=!!sub; $("grid").hidden=subs; $("subs").hidden=!subs;
-    if(subs){ const names=[...new Set(PRODUCTS.filter(x=>x.cat===cat).map(x=>x.anime))].sort();
+    if(subs){ const names=[...new Set(PRODUCTS.filter(x=>x.cat===cat).map(x=>x.anime))].sort(subSort);
       $("subs").innerHTML=names.length?names.map(a=>{const l=PRODUCTS.filter(x=>x.cat===cat&&x.anime===a),cv=l.find(x=>x.image);
         return `<button class="fold" data-s="${a}"><div class="cov">${cv?`<img src="${thumbSrc(cv)}" alt="" loading="lazy">`:ICONS[cat]}</div><b>\u{1F4C1} ${a}</b><small>${l.length} poster${l.length>1?"s":""}</small></button>`}).join(""):'<p class="empty">More coming soon.</p>'; }
     else grid(); }

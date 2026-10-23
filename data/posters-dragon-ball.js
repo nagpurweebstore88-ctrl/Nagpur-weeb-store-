@@ -1,0 +1,41 @@
+/* DRAGON BALL posters. price, stock and size apply to every poster in this file.
+   Each row is: [number, "Creative name", "photo file name", "search words", optional {price:150, stock:3}]
+   Photos live in images/posters/dragon-ball/ (big) and images/posters/dragon-ball/t/ (thumbnail). */
+window.POSTER_DATA=window.POSTER_DATA||[];
+window.POSTER_DATA.push({anime:"Dragon Ball Z",folder:"dragon-ball",prefix:"DB",price:99,stock:10,size:"12 x 18 in",note:"Poster print",items:[
+ [1, "Saga of Every Warrior", "dragon-ball-z-cast-sky-lineup", "Dragon Ball Z cast lineup sky Saiyans Frieza force Cell Buu Goku Vegeta Gohan Krillin Android 18"],
+ [2, "Beast Awakens", "gohan-beast-pink-lightning", "Gohan Beast close up pink lightning white hair"],
+ [3, "Beast Under the Shadow of Cell", "gohan-beast-cell-aura", "Gohan Beast standing blue purple aura Cell"],
+ [4, "Ultra Ego Eyes", "vegeta-ultra-ego-purple-close", "Vegeta Ultra Ego purple close up"],
+ [5, "Rider of the Golden Sky", "goku-nimbus-shenron-gold", "Goku Nimbus Shenron golden clouds"],
+ [6, "Four Panels of Instinct", "goku-ultra-instinct-four-panels", "Goku Ultra Instinct four panels blue"],
+ [7, "Rose in Ink", "goku-black-rose-manga", "Goku Black Super Saiyan Rose manga panels black white"],
+ [8, "Face to Face with Destiny", "vegeta-goku-split-faces", "Majin Vegeta and Goku Super Saiyan split faces"],
+ [9, "Fusion Meets the Legend", "gogeta-vs-broly-clash", "Gogeta vs Broly clash fire"],
+ [10, "Legendary Green Gaze", "broly-green-aura-flight", "Broly legendary Super Saiyan green aura flying"],
+ [11, "Cell Games Fury", "gohan-ssj2-torn-gi", "Teen Gohan Super Saiyan 2 torn gi grey"],
+ [12, "Heroes Take Flight", "z-fighters-flying-clouds", "Goku Trunks Vegeta Piccolo Gohan flying clouds Super Saiyan"],
+ [13, "Prince of Blood", "majin-vegeta-bloodied-yellow", "Majin Vegeta bloodied yellow lightning"],
+ [14, "Beast Kick", "gohan-beast-kick", "Gohan Beast kick purple pink white"],
+ [15, "Ultra Ego Roar", "vegeta-ultra-ego-roar", "Vegeta Ultra Ego roar purple flames"],
+ [16, "Seven Wishes in Glass", "seven-dragon-balls", "Seven Dragon Balls crystal stars wood"],
+ [17, "The Special Beam Cannon", "piccolo-special-beam-cannon-raditz", "Piccolo Special Beam Cannon Goku Raditz"],
+ [18, "Little Heroes, Big Adventure", "kid-goku-shenron-crew", "Kid Goku Bulma Krillin Piccolo Roshi Oolong Shenron flying"],
+ [19, "Bardock Faces the Tyrant", "bardock-vs-frieza", "Bardock vs Frieza space"],
+ [20, "The Whole Dragon Ball Universe", "dragon-ball-character-collage", "Dragon Ball huge character collage logo every character"],
+ [21, "Turtle School Crest and Power Pole", "kame-symbol-power-pole", "Kame turtle school symbol Power Pole Goku staff red"],
+ [22, "Universe Roll Call", "dragon-ball-super-cast-lineup", "Dragon Ball Super cast lineup gods angels Goku Vegeta Beerus Whis Zeno Shenron"],
+ [23, "King Kai's Little Planet", "king-kai-planet-sunset", "King Kai planet sunset pink clouds"],
+ [24, "Seven Dragon Balls on Timber", "dragon-balls-wooden-table", "Seven Dragon Balls glowing wood table"],
+ [25, "Forest Meeting", "kid-goku-bulma-forest", "Kid Goku and Bulma forest capsule car Power Pole"],
+ [26, "Golden Warrior vs Perfect Cell", "goku-ssj-vs-cell-painted", "Goku Super Saiyan vs Perfect Cell painted"],
+ [27, "Saiyans Among the Ruins", "goku-vegeta-ruined-city", "Goku and Vegeta Super Saiyan ruined city fallen heroes"],
+ [28, "Roshi's Classroom", "roshi-classroom-30th-anniversary", "Master Roshi teacher classroom Goku Vegeta Bulma Krillin Yamcha 30th anniversary"],
+ [29, "Eternal Dragon Rising", "shenron-dragon-balls-sky", "Shenron eternal dragon dragon balls sunset sky"],
+ [30, "Vegeta Meets Semi-Perfect Cell", "vegeta-vs-semi-perfect-cell", "Vegeta Super Saiyan vs Semi-Perfect Cell"],
+ [31, "Two Worlds of Fury", "gohan-beast-piccolo-split-panels", "Gohan Beast Piccolo Vegeta Raditz split panel purple blue"],
+ [32, "Silver Storm vs Buu", "goku-vs-buu-silver-hair", "Goku silver hair vs Buu pink blue energy"],
+ [33, "Father and Son at the Edge", "vegeta-trunks-window-space", "Vegeta and Trunks watching energy beams space window"],
+ [34, "A Thousand Moments of Goku", "goku-mosaic-portrait", "Goku mosaic portrait collage of images"],
+ [35, "Kamehameha vs Death Ball", "goku-vs-frieza-death-ball", "Goku Super Saiyan Kamehameha vs Frieza death ball"]
+]});
