@@ -1,2 +1,2 @@
 /* List of poster files to load. To add a new anime, add its name here and create data/posters-NAME.js */
-window.POSTER_SETS=["one-piece","one-piece-wanted","attack-on-titan","baki","berserk","black-clover","bleach","chainsaw-man","death-note","demon-slayer","dragon-ball","haikyu","jojo","jujutsu-kaisen","anime-multiverse","anime-movies","tokyo-ghoul","tokyo-revengers"];
+window.POSTER_SETS=["one-piece","one-piece-wanted","attack-on-titan","baki","berserk","black-clover","bleach","chainsaw-man","death-note","demon-slayer","dragon-ball","haikyu","jojo","jujutsu-kaisen","anime-multiverse","anime-movies","tokyo-ghoul","tokyo-revengers","naruto"];
