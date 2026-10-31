@@ -79,12 +79,17 @@ footer a{color:var(--tx);font-weight:700}
 .pv{position:fixed;inset:0;z-index:8;background:var(--bg);overflow:auto;padding-bottom:110px}
 .pv[hidden]{display:none}
 .pvtop{position:sticky;top:0;z-index:2;padding:10px 14px;background:rgba(7,6,11,.92)}
-.zoom{position:relative;height:62vh;background:#0e0a18;overflow:hidden;touch-action:none;user-select:none}
+.zoom{position:relative;height:min(62vh,100vw);background:#0e0a18;overflow:hidden;touch-action:none;user-select:none}
 .zoom img{width:100%;height:100%;object-fit:contain;display:block}
 .zico{position:absolute;inset:0;display:grid;place-items:center;font-size:6rem}
 .zc{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
 .zc button{background:rgba(7,6,11,.8);border:2px solid var(--neon);border-radius:8px;padding:4px 12px;font-weight:700}
 .zh{position:absolute;left:10px;bottom:12px;font-size:.75rem;color:var(--dim)}
+.gn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:56px;background:rgba(7,6,11,.7);border:2px solid var(--neon);border-radius:10px;font-size:1.7rem;line-height:1;font-weight:700;padding:0;box-shadow:0 0 12px -2px var(--glow)}
+.gp{left:8px}.gx{right:8px}
+.gn[hidden]{display:none}
+.gd{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px;padding:7px 11px;background:rgba(7,6,11,.65);border-radius:20px}.gd[hidden]{display:none}
+.gd i{display:block;width:9px;height:9px;border-radius:50%;background:#6b5b95;cursor:pointer}.gd i.on{background:#fff;box-shadow:0 0 8px var(--glow)}
 .pd{max-width:640px;margin:0 auto;padding:16px 18px}
 .pn{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.15}
 .pd .price{font-size:1.6rem;margin:6px 0 10px}
@@ -115,6 +120,7 @@ footer a{color:var(--tx);font-weight:700}
 <div class="pv" id="pv" hidden>
 <div class="pvtop"><button class="back" id="pback">&larr; Back</button></div>
 <div class="zoom" id="zoom"><img id="zimg" alt="" draggable="false"><div class="zico" id="zico"></div>
+<button class="gn gp" id="gprev" aria-label="Previous product" title="Previous product" hidden>&lsaquo;</button><button class="gn gx" id="gnext" aria-label="Next product" title="Next product" hidden>&rsaquo;</button><div class="gd" id="gdots" hidden></div>
 <span class="zh">Pinch, scroll or double-tap to zoom</span>
 <div class="zc"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">&minus;</button><button id="zreset">Reset</button></div></div>
 <div class="pd" id="pd"></div></div>
@@ -154,30 +160,30 @@ const ICONS = {"Action Figures":"🦸","Chibi Figures":"🧸","Posters":"🖼️
 /* anime: series name. height: figures only, like "18 cm" (shown on the card, not searchable).
    stock: exact number in hand; at 0 it shows Sold out. image: photo path inside the images folder, like "action-figures/madara-standing" (the .jpg is added for you). tag: "New" or "". */
 const PRODUCTS = [
-  {id:2,name:"Ichigo Kurosaki (First Bankai)",cat:"Action Figures",anime:"Bleach",height:"",stock:1,price:1000,image:"",tag:""},
-  {id:5,name:"Goku Spirit Bomb",cat:"Action Figures",anime:"Dragon Ball Z",height:"23 cm",note:"With light, blister packing",stock:1,price:1500,image:"action-figures/goku-spirit-bomb",tag:"New"},
-  {id:6,name:"Goku Ultra Instinct",cat:"Action Figures",anime:"Dragon Ball Z",height:"30 cm",note:"With box",stock:1,price:1500,image:"action-figures/goku-ultra-instinct",tag:"New"},
-  {id:7,name:"Goku Kamehameha LED Lamp",cat:"Collectibles",anime:"Dragon Ball Z",height:"16 cm",note:"Box packing",stock:1,price:2500,image:"collectibles/goku-kamehameha-lamp",tag:"New"},
-  {id:8,name:"Itadori Angry Punch",cat:"Action Figures",anime:"Jujutsu Kaisen",height:"18 cm",note:"",stock:1,price:1200,image:"action-figures/itadori-angry-punch",tag:"New"},
-  {id:9,name:"Kakashi Vibration Stars",cat:"Action Figures",anime:"Naruto",height:"17 cm",note:"",stock:1,price:1000,image:"action-figures/kakashi-vibration-stars",tag:"New"},
+  {id:2,name:"Ichigo Kurosaki (First Bankai)",cat:"Action Figures",anime:"Bleach",height:"",stock:1,price:1000,image:"action-figures/ichigo-first-bankai/1.webp",thumb:"action-figures/ichigo-first-bankai/t.webp",images:["action-figures/ichigo-first-bankai/1.webp", "action-figures/ichigo-first-bankai/2.webp", "action-figures/ichigo-first-bankai/3.webp", "action-figures/ichigo-first-bankai/4.webp"],tag:""},
+  {id:5,name:"Goku Spirit Bomb",cat:"Action Figures",anime:"Dragon Ball Z",height:"23 cm",note:"With light, blister packing",stock:1,price:1500,image:"action-figures/goku-spirit-bomb/1.webp",thumb:"action-figures/goku-spirit-bomb/t.webp",images:["action-figures/goku-spirit-bomb/1.webp",  "action-figures/goku-spirit-bomb/2.webp",  "action-figures/goku-spirit-bomb/3.webp",  "action-figures/goku-spirit-bomb/4.webp",  "action-figures/goku-spirit-bomb/5.webp",  "action-figures/goku-spirit-bomb/6.webp"],tag:"New"},
+  {id:6,name:"Goku Ultra Instinct",cat:"Action Figures",anime:"Dragon Ball Z",height:"30 cm",note:"With box",stock:1,price:1500,image:"action-figures/goku-ultra-instinct/1.webp",thumb:"action-figures/goku-ultra-instinct/t.webp",images:["action-figures/goku-ultra-instinct/1.webp",  "action-figures/goku-ultra-instinct/2.webp",  "action-figures/goku-ultra-instinct/3.webp",  "action-figures/goku-ultra-instinct/4.webp"],tag:"New"},
+  {id:7,name:"Goku Kamehameha LED Lamp",cat:"Collectibles",anime:"Dragon Ball Z",height:"16 cm",note:"Box packing",stock:1,price:2500,image:"collectibles/goku-kamehameha-lamp/1.webp",thumb:"collectibles/goku-kamehameha-lamp/t.webp",images:["collectibles/goku-kamehameha-lamp/1.webp", "collectibles/goku-kamehameha-lamp/2.webp", "collectibles/goku-kamehameha-lamp/3.webp", "collectibles/goku-kamehameha-lamp/4.webp"],tag:"New"},
+  {id:8,name:"Itadori Angry Punch",cat:"Action Figures",anime:"Jujutsu Kaisen",height:"18 cm",note:"",stock:1,price:1200,image:"action-figures/itadori-angry-punch/1.webp",thumb:"action-figures/itadori-angry-punch/t.webp",images:["action-figures/itadori-angry-punch/1.webp", "action-figures/itadori-angry-punch/2.webp", "action-figures/itadori-angry-punch/3.webp", "action-figures/itadori-angry-punch/4.webp"],tag:"New"},
+  {id:9,name:"Kakashi Vibration Stars",cat:"Action Figures",anime:"Naruto",height:"17 cm",note:"",stock:1,price:1000,image:"action-figures/kakashi-vibration-stars/1.webp",thumb:"action-figures/kakashi-vibration-stars/t.webp",images:["action-figures/kakashi-vibration-stars/1.webp",  "action-figures/kakashi-vibration-stars/2.webp",  "action-figures/kakashi-vibration-stars/3.webp"],tag:"New"},
   {id:10,name:"Kyojuro Rengoku Fire",cat:"Action Figures",anime:"Demon Slayer",height:"14 cm",note:"",stock:1,price:1000,image:"action-figures/rengoku-fire",tag:"New"},
-  {id:11,name:"Luffy Moon",cat:"Action Figures",anime:"One Piece",height:"14 cm",note:"Without light",stock:2,price:1200,image:"action-figures/luffy-moon",tag:"New"},
-  {id:12,name:"Madara Standing",cat:"Action Figures",anime:"Naruto",height:"18 cm",note:"OPP packing",stock:1,price:850,image:"action-figures/madara-standing",tag:"New"},
-  {id:13,name:"Luffy and Shanks",cat:"Action Figures",anime:"One Piece",height:"17 cm",note:"",stock:1,price:800,image:"action-figures/luffy-and-shanks",tag:"New"},
+  {id:11,name:"Luffy Moon",cat:"Action Figures",anime:"One Piece",height:"14 cm",note:"Without light",stock:2,price:1200,image:"action-figures/luffy-moon/1.webp",thumb:"action-figures/luffy-moon/t.webp",images:["action-figures/luffy-moon/1.webp", "action-figures/luffy-moon/2.webp", "action-figures/luffy-moon/3.webp"],tag:"New"},
+  {id:12,name:"Madara Standing",cat:"Action Figures",anime:"Naruto",height:"18 cm",note:"OPP packing",stock:1,price:850,image:"action-figures/madara-standing/1.webp",thumb:"action-figures/madara-standing/t.webp",images:["action-figures/madara-standing/1.webp", "action-figures/madara-standing/2.webp", "action-figures/madara-standing/3.webp", "action-figures/madara-standing/4.webp"],tag:"New"},
+  {id:13,name:"Luffy and Shanks",cat:"Action Figures",anime:"One Piece",height:"17 cm",note:"",stock:1,price:800,image:"action-figures/luffy-and-shanks/1.webp",thumb:"action-figures/luffy-and-shanks/t.webp",images:["action-figures/luffy-and-shanks/1.webp",  "action-figures/luffy-and-shanks/2.webp",  "action-figures/luffy-and-shanks/3.webp",  "action-figures/luffy-and-shanks/4.webp"],tag:"New"},
   {id:14,name:"Demon Slayer Standing Figure",cat:"Chibi Figures",anime:"Demon Slayer",height:"10 cm",note:"₹300 each, 6 characters, tell us which on WhatsApp",stock:1,price:300,image:"chibi-figures/demon-slayer-set",tag:"New"},
-  {id:15,name:"Zenitsu Agatsuma",cat:"Action Figures",anime:"Demon Slayer",height:"13 cm",note:"",stock:1,price:1000,image:"action-figures/zenitsu",tag:"New"},
-  {id:16,name:"Goku with Shenron",cat:"Action Figures",anime:"Dragon Ball Z",height:"18 cm",note:"Blister packing",stock:1,price:1500,image:"action-figures/goku-shenron",tag:"New"},
-  {id:17,name:"Eren Attack Titan",cat:"Action Figures",anime:"Attack on Titan",height:"16 cm",note:"",stock:1,price:600,image:"action-figures/eren-attack-titan",tag:"New"},
-  {id:18,name:"Eren Yeager Scout Regiment",cat:"Action Figures",anime:"Attack on Titan",height:"22 cm",note:"",stock:1,price:800,image:"action-figures/eren-scout-regiment",tag:"New"},
-  {id:19,name:"Goku Kamehameha Stance",cat:"Action Figures",anime:"Dragon Ball Z",height:"15 cm",note:"",stock:1,price:600,image:"action-figures/goku-kamehameha-stance",tag:"New"},
+  {id:15,name:"Zenitsu Agatsuma",cat:"Action Figures",anime:"Demon Slayer",height:"13 cm",note:"",stock:1,price:1000,image:"action-figures/zenitsu/1.webp",thumb:"action-figures/zenitsu/t.webp",images:["action-figures/zenitsu/1.webp", "action-figures/zenitsu/2.webp"],tag:"New"},
+  {id:16,name:"Goku with Shenron",cat:"Action Figures",anime:"Dragon Ball Z",height:"18 cm",note:"Blister packing",stock:1,price:1500,image:"action-figures/goku-shenron/1.webp",thumb:"action-figures/goku-shenron/t.webp",images:["action-figures/goku-shenron/1.webp",  "action-figures/goku-shenron/2.webp",  "action-figures/goku-shenron/3.webp",  "action-figures/goku-shenron/4.webp",  "action-figures/goku-shenron/5.webp"],tag:"New"},
+  {id:17,name:"Eren Attack Titan",cat:"Action Figures",anime:"Attack on Titan",height:"16 cm",note:"",stock:1,price:600,image:"action-figures/eren-attack-titan/1.webp",thumb:"action-figures/eren-attack-titan/t.webp",images:["action-figures/eren-attack-titan/1.webp",  "action-figures/eren-attack-titan/2.webp"],tag:"New"},
+  {id:18,name:"Eren Yeager Scout Regiment",cat:"Action Figures",anime:"Attack on Titan",height:"22 cm",note:"",stock:1,price:800,image:"action-figures/eren-scout-regiment/1.webp",thumb:"action-figures/eren-scout-regiment/t.webp",images:["action-figures/eren-scout-regiment/1.webp",  "action-figures/eren-scout-regiment/2.webp",  "action-figures/eren-scout-regiment/3.webp",  "action-figures/eren-scout-regiment/4.webp",  "action-figures/eren-scout-regiment/5.webp",  "action-figures/eren-scout-regiment/6.webp"],tag:"New"},
+  {id:19,name:"Goku Kamehameha Stance",cat:"Action Figures",anime:"Dragon Ball Z",height:"15 cm",note:"",stock:1,price:600,image:"action-figures/goku-kamehameha-stance/1.webp",thumb:"action-figures/goku-kamehameha-stance/t.webp",images:["action-figures/goku-kamehameha-stance/1.webp",  "action-figures/goku-kamehameha-stance/2.webp",  "action-figures/goku-kamehameha-stance/3.webp",  "action-figures/goku-kamehameha-stance/4.webp"],tag:"New"},
   {id:20,name:"Goku Flying Kamehameha",cat:"Action Figures",anime:"Dragon Ball Z",height:"20 cm",note:"With clear display stand, box packing",stock:1,price:1000,image:"action-figures/goku-flying-kamehameha",tag:"New"},
-  {id:21,name:"Kakashi Hokage Susanoo",cat:"Action Figures",anime:"Naruto",height:"27 cm",note:"Colour box packing",stock:1,price:1500,image:"action-figures/kakashi-hokage-susanoo",tag:"New"},
-  {id:22,name:"Luffy Pink Flame Haki",cat:"Action Figures",anime:"One Piece",height:"24 cm",note:"",stock:1,price:1200,image:"action-figures/luffy-pink-flame-haki",tag:"New"},
-  {id:23,name:"Rengoku Vibration Stars",cat:"Action Figures",anime:"Demon Slayer",height:"18 cm",note:"With box",stock:1,price:800,image:"action-figures/rengoku-vibration-stars",tag:"New"},
-  {id:24,name:"Iron Spider-Man",cat:"Action Figures",anime:"Marvel",height:"25 cm",note:"",stock:1,price:1500,image:"action-figures/iron-spiderman",tag:"New"},
-  {id:25,name:"Sukuna Four Arms",cat:"Action Figures",anime:"Jujutsu Kaisen",height:"20 cm",note:"",stock:1,price:1200,image:"action-figures/sukuna-four-arms",tag:"New"},
-  {id:26,name:"Whitebeard Quake Strike",cat:"Action Figures",anime:"One Piece",height:"16 cm",note:"With box",stock:1,price:900,image:"action-figures/whitebeard-quake-strike",tag:"New"},
-  {id:27,name:"Zoro Three Sword Style",cat:"Action Figures",anime:"One Piece",height:"18 cm",note:"With extra face",stock:1,price:1000,image:"action-figures/zoro-three-sword-style",tag:"New"},
+  {id:21,name:"Kakashi Hokage Susanoo",cat:"Action Figures",anime:"Naruto",height:"27 cm",note:"Colour box packing",stock:1,price:1500,image:"action-figures/kakashi-hokage-susanoo/1.webp",thumb:"action-figures/kakashi-hokage-susanoo/t.webp",images:["action-figures/kakashi-hokage-susanoo/1.webp",  "action-figures/kakashi-hokage-susanoo/2.webp",  "action-figures/kakashi-hokage-susanoo/3.webp",  "action-figures/kakashi-hokage-susanoo/4.webp"],tag:"New"},
+  {id:22,name:"Luffy Pink Flame Haki",cat:"Action Figures",anime:"One Piece",height:"24 cm",note:"",stock:1,price:1200,image:"action-figures/luffy-pink-flame-haki/1.webp",thumb:"action-figures/luffy-pink-flame-haki/t.webp",images:["action-figures/luffy-pink-flame-haki/1.webp", "action-figures/luffy-pink-flame-haki/2.webp", "action-figures/luffy-pink-flame-haki/3.webp", "action-figures/luffy-pink-flame-haki/4.webp", "action-figures/luffy-pink-flame-haki/5.webp"],tag:"New"},
+  {id:23,name:"Rengoku Vibration Stars",cat:"Action Figures",anime:"Demon Slayer",height:"18 cm",note:"With box",stock:1,price:800,image:"action-figures/rengoku-vibration-stars/1.webp",thumb:"action-figures/rengoku-vibration-stars/t.webp",images:["action-figures/rengoku-vibration-stars/1.webp", "action-figures/rengoku-vibration-stars/2.webp", "action-figures/rengoku-vibration-stars/3.webp"],tag:"New"},
+  {id:24,name:"Iron Spider-Man",cat:"Action Figures",anime:"Marvel",height:"25 cm",note:"",stock:1,price:1500,image:"action-figures/iron-spiderman/1.webp",thumb:"action-figures/iron-spiderman/t.webp",images:["action-figures/iron-spiderman/1.webp", "action-figures/iron-spiderman/2.webp", "action-figures/iron-spiderman/3.webp", "action-figures/iron-spiderman/4.webp"],tag:"New"},
+  {id:25,name:"Sukuna Four Arms",cat:"Action Figures",anime:"Jujutsu Kaisen",height:"20 cm",note:"",stock:1,price:1200,image:"action-figures/sukuna-four-arms/1.webp",thumb:"action-figures/sukuna-four-arms/t.webp",images:["action-figures/sukuna-four-arms/1.webp", "action-figures/sukuna-four-arms/2.webp", "action-figures/sukuna-four-arms/3.webp", "action-figures/sukuna-four-arms/4.webp"],tag:"New"},
+  {id:26,name:"Whitebeard Quake Strike",cat:"Action Figures",anime:"One Piece",height:"16 cm",note:"With box",stock:1,price:900,image:"action-figures/whitebeard-quake-strike/1.webp",thumb:"action-figures/whitebeard-quake-strike/t.webp",images:["action-figures/whitebeard-quake-strike/1.webp", "action-figures/whitebeard-quake-strike/2.webp", "action-figures/whitebeard-quake-strike/3.webp", "action-figures/whitebeard-quake-strike/4.webp", "action-figures/whitebeard-quake-strike/5.webp"],tag:"New"},
+  {id:27,name:"Zoro Three Sword Style",cat:"Action Figures",anime:"One Piece",height:"18 cm",note:"With extra face",stock:1,price:1000,image:"action-figures/zoro-three-sword-style/1.webp",thumb:"action-figures/zoro-three-sword-style/t.webp",images:["action-figures/zoro-three-sword-style/1.webp",  "action-figures/zoro-three-sword-style/2.webp",  "action-figures/zoro-three-sword-style/3.webp",  "action-figures/zoro-three-sword-style/4.webp"],tag:"New"},
   {id:28,name:"Captain America Shield Keychain, Bronze",cat:"Keychains",anime:"Marvel",height:"",note:"Rotating metal keychain",stock:1,price:149,image:"keychains/captain-america-shield-brown",tag:"New"},
   {id:29,name:"Captain America Shield Keychain, Silver",cat:"Keychains",anime:"Marvel",height:"",note:"Rotating metal keychain",stock:1,price:149,image:"keychains/captain-america-shield-silver",tag:"New"},
   {id:30,name:"Straw Hat Jolly Roger Ship Wheel Keychain 1",cat:"Keychains",anime:"One Piece",height:"",note:"Rotating metal keychain",stock:1,price:149,image:"keychains/straw-hat-jolly-roger-spinner-1",tag:"New"},
@@ -237,9 +243,10 @@ function expandPosters(){ (window.POSTER_DATA||[]).forEach(s=>s.items.forEach(r=
   PRODUCTS.push(Object.assign({id:no,no,name:r[1],kw:r[3]||"",cat:"Posters",anime:s.anime,height:s.size,note:s.note||"",stock:s.stock,price:s.price,
     image:"posters/"+s.folder+"/"+r[2]+".webp",thumb:"posters/"+s.folder+"/t/"+r[2]+".webp",tag:""},r[4]||{})); })); }
 function loadSets(){ return Promise.all((window.POSTER_SETS||[]).map(n=>new Promise(res=>{ const e=document.createElement("script"); e.src="data/posters-"+n+".js"; e.onload=e.onerror=res; document.head.appendChild(e); }))); }
+function curList(){ return PRODUCTS.filter(p => p.cat===cat && (!sub||p.anime===sub) && (!anime||p.anime===anime) &&
+    (p.name+" "+p.anime+" "+p.cat+" "+(p.no||"")+" "+(p.kw||"")).toLowerCase().includes(term)); }
 function grid(){
-  const list = PRODUCTS.filter(p => p.cat===cat && (!sub||p.anime===sub) && (!anime||p.anime===anime) &&
-    (p.name+" "+p.anime+" "+p.cat+" "+(p.no||"")+" "+(p.kw||"")).toLowerCase().includes(term));
+  const list = curList();
   const show = list.slice(0,lim);
   $("grid").innerHTML = show.length ? show.map(p => `
     <article class="card" data-id="${p.id}">
@@ -280,20 +287,31 @@ function zapply(){ const r=zb.getBoundingClientRect(), mx=(z.s-1)*r.width/2, my=
   z.x=Math.max(-mx,Math.min(mx,z.x)); z.y=Math.max(-my,Math.min(my,z.y));
   $("zimg").style.transform=`translate(${z.x}px,${z.y}px) scale(${z.s})`; }
 function zset(v){ z.s=Math.max(1,Math.min(5,v)); zapply(); }
-zb.addEventListener("pointerdown",e=>{ if(e.target.closest(".zc"))return; zb.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(pts.size==2){d0=dist();s0=z.s;} });
+zb.addEventListener("pointerdown",e=>{ if(e.target.closest(".zc,.gn,.gd"))return; zb.setPointerCapture(e.pointerId); pts.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(pts.size==1){sw={x:e.clientX,y:e.clientY};} if(pts.size==2){d0=dist();s0=z.s;} });
 zb.addEventListener("pointermove",e=>{ const o=pts.get(e.pointerId); if(!o)return;
   const n={x:e.clientX,y:e.clientY}; pts.set(e.pointerId,n);
   if(pts.size==1&&z.s>1){z.x+=n.x-o.x;z.y+=n.y-o.y;zapply();}
   else if(pts.size==2){zset(s0*dist()/d0);} });
-["pointerup","pointercancel"].forEach(t=>zb.addEventListener(t,e=>pts.delete(e.pointerId)));
+let sw=null, gl=[], gi=0, cur=0;
+const gsrc=s=>"images/"+(s.includes(".")?s:s+".jpg");
+function gshow(i){ if(!gl.length)return; gi=Math.max(0,Math.min(gl.length-1,i)); $("zimg").src=gsrc(gl[gi]); z={s:1,x:0,y:0}; zapply();
+  const gd=$("gdots"); gd.hidden=gl.length<2; gd.innerHTML=gl.length>1?gl.map((_,k)=>`<i data-k="${k}" class="${k===gi?"on":""}"></i>`).join(""):"";
+  if(gi+1<gl.length){ const n=new Image(); n.src=gsrc(gl[gi+1]); } }
+function pnav(d){ const l=curList(), i=l.findIndex(x=>x.id==cur); if(i<0||l.length<2)return; location.replace("#/p/"+l[(i+d+l.length)%l.length].id); }
+$("gprev").onclick=()=>pnav(-1); $("gnext").onclick=()=>pnav(1);
+$("gdots").onclick=e=>{ const k=e.target.dataset.k; if(k!=null) gshow(+k); };
+["pointerup","pointercancel"].forEach(t=>zb.addEventListener(t,e=>{
+  if(t==="pointerup"&&sw&&pts.size==1&&z.s<=1&&gl.length>1){ const dx=e.clientX-sw.x, dy=e.clientY-sw.y;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ gshow(gi+(dx<0?1:-1)); } }
+  if(pts.size<=1)sw=null; pts.delete(e.pointerId);}));
 zb.addEventListener("wheel",e=>{e.preventDefault();zset(z.s*(e.deltaY<0?1.15:1/1.15));},{passive:false});
 zb.addEventListener("dblclick",()=>zset(z.s>1?1:2.5));
 $("zin").onclick=()=>zset(z.s*1.5); $("zout").onclick=()=>zset(z.s/1.5); $("zreset").onclick=()=>zset(1);
 
 function openP(p){
   z={s:1,x:0,y:0}; const im=$("zimg");
-  im.hidden=!p.image; if(p.image){im.src=imgSrc(p);im.alt=p.name;} $("zico").textContent=p.image?"":(ICONS[p.cat]||"\u{1F381}");
-  zapply();
+  im.hidden=!p.image; gl=(p.images&&p.images.length)?p.images:(p.image?[p.image]:[]); gi=0; if(p.image){im.alt=p.name;gshow(0);}else{$("gdots").hidden=true;} $("zico").textContent=p.image?"":(ICONS[p.cat]||"\u{1F381}");
+  zapply(); cur=p.id; $("gprev").hidden=$("gnext").hidden=curList().length<2;
   const rows=[["Anime / series",p.anime],["Poster No.",p.no],["Category",p.cat],[p.cat==="Posters"?"Size":"Height",p.height],["Packing & details",p.note],["Availability",p.stock>0?(p.stock<=2?"Only "+p.stock+" left":p.stock+" in stock"):"Sold out"]].filter(r=>r[1]);
   const q=encodeURIComponent(`Hi Nagpur Weeb Store! I have a question about ${p.name}${p.no?" (Poster No. "+p.no+")":""} (${rs(p.price)}).`);
   $("pd").innerHTML=`<h2 class="pn">${p.name}</h2><div class="price">${rs(p.price)}</div>
