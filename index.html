@@ -88,8 +88,8 @@ footer a{color:var(--tx);font-weight:700}
 .gn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:42px;height:56px;background:rgba(7,6,11,.7);border:2px solid var(--neon);border-radius:10px;font-size:1.7rem;line-height:1;font-weight:700;padding:0;box-shadow:0 0 12px -2px var(--glow)}
 .gp{left:8px}.gx{right:8px}
 .gn[hidden]{display:none}
-.gd{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px;padding:7px 11px;background:rgba(7,6,11,.65);border-radius:20px}.gd[hidden]{display:none}
-.gd i{display:block;width:9px;height:9px;border-radius:50%;background:#6b5b95;cursor:pointer}.gd i.on{background:#fff;box-shadow:0 0 8px var(--glow)}
+.gd{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:8px;padding:8px 10px;background:rgba(7,6,11,.7);border-radius:16px;max-width:94%;overflow-x:auto;scrollbar-width:none}.gd::-webkit-scrollbar{display:none}.gd[hidden]{display:none}
+.gd img{display:block;flex:none;width:58px;height:58px;object-fit:cover;border-radius:9px;border:2px solid transparent;opacity:.6;cursor:pointer;background:#1a1230}.gd img.on{border-color:#a855f7;opacity:1;box-shadow:0 0 10px var(--glow)}
 .pd{max-width:640px;margin:0 auto;padding:16px 18px}
 .pn{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.15}
 .pd .price{font-size:1.6rem;margin:6px 0 10px}
@@ -245,8 +245,10 @@ function expandPosters(){ (window.POSTER_DATA||[]).forEach(s=>s.items.forEach(r=
 function loadSets(){ return Promise.all((window.POSTER_SETS||[]).map(n=>new Promise(res=>{ const e=document.createElement("script"); e.src="data/posters-"+n+".js"; e.onload=e.onerror=res; document.head.appendChild(e); }))); }
 function curList(){ return PRODUCTS.filter(p => p.cat===cat && (!sub||p.anime===sub) && (!anime||p.anime===anime) &&
     (p.name+" "+p.anime+" "+p.cat+" "+(p.no||"")+" "+(p.kw||"")).toLowerCase().includes(term)).sort((a,b)=>(a.stock<=0)-(b.stock<=0)); }
+let hv=null;
+function hvStop(){ if(!hv)return; clearInterval(hv.t); hv.im.src=hv.orig; hv=null; }
 function grid(){
-  const list = curList();
+  hvStop(); const list = curList();
   const show = list.slice(0,lim);
   $("grid").innerHTML = show.length ? show.map(p => `
     <article class="card" data-id="${p.id}">
@@ -295,11 +297,16 @@ zb.addEventListener("pointermove",e=>{ const o=pts.get(e.pointerId); if(!o)retur
 let sw=null, gl=[], gi=0, cur=0;
 const gsrc=s=>"images/"+(s.includes(".")?s:s+".jpg");
 function gshow(i){ if(!gl.length)return; gi=Math.max(0,Math.min(gl.length-1,i)); $("zimg").src=gsrc(gl[gi]); z={s:1,x:0,y:0}; zapply();
-  const gd=$("gdots"); gd.hidden=gl.length<2; gd.innerHTML=gl.length>1?gl.map((_,k)=>`<i data-k="${k}" class="${k===gi?"on":""}"></i>`).join(""):"";
+  const gd=$("gdots"); gd.hidden=gl.length<2; gd.innerHTML=gl.length>1?gl.map((s,k)=>`<img data-k="${k}" src="${gsrc(s)}" alt="Photo ${k+1}" decoding="async" class="${k===gi?"on":""}">`).join(""):"";
   if(gi+1<gl.length){ const n=new Image(); n.src=gsrc(gl[gi+1]); } }
+$("grid").addEventListener("mouseover",e=>{ const c=e.target.closest(".card"); if(!c||(hv&&hv.c===c))return; hvStop();
+  const p=PRODUCTS.find(x=>x.id==c.dataset.id), im=c.querySelector(".pic img"); if(!p||!im||!p.images||p.images.length<2)return;
+  p.images.forEach(s=>{ const n=new Image(); n.src=gsrc(s); }); let k=-1;
+  hv={c,im,orig:im.src,t:setInterval(()=>{ k=(k+1)%p.images.length; im.src=gsrc(p.images[k]); },850)}; });
+$("grid").addEventListener("mouseout",e=>{ const c=e.target.closest(".card"); if(c&&hv&&hv.c===c&&!c.contains(e.relatedTarget)) hvStop(); });
 function pnav(d){ const l=curList(), i=l.findIndex(x=>x.id==cur); if(i<0||l.length<2)return; location.replace("#/p/"+l[(i+d+l.length)%l.length].id); }
 $("gprev").onclick=()=>pnav(-1); $("gnext").onclick=()=>pnav(1);
-$("gdots").onclick=e=>{ const k=e.target.dataset.k; if(k!=null) gshow(+k); };
+$("gdots").onclick=e=>{ const t=e.target.closest("img"); if(t&&t.dataset.k!=null) gshow(+t.dataset.k); };
 ["pointerup","pointercancel"].forEach(t=>zb.addEventListener(t,e=>{
   if(t==="pointerup"&&sw&&pts.size==1&&z.s<=1&&gl.length>1){ const dx=e.clientX-sw.x, dy=e.clientY-sw.y;
     if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ gshow(gi+(dx<0?1:-1)); } }
